@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniSA Auto-Grading Tool - Upload</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <img src="https://my.unisa.edu.au/student/portal/App_Themes/Student/images/logo_unisa.svg" alt="UniSA Logo" class="logo">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="upload.html" class="active">Upload Diagram</a></li>
+                <li><a href="history.html">Submission History</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="upload-section">
+            <h2>Upload Your Diagram</h2>
+            <div class="upload-box">
+                <input type="file" id="diagramUpload" accept="image/*,.pdf" onchange="previewDiagram(event)">
+                <p>Supported formats: PNG, JPG, PDF</p>
+            </div>
+            <div id="preview" class="preview-area"></div>
+            <button onclick="submitDiagram()" class="submit-btn">Submit for Grading</button>
+        </section>
+        <section class="results-section">
+            <h2>Grading Results</h2>
+            <div id="results" class="results-box">
+                <p>Submit a diagram to see your results here.</p>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>© 2025 UniSA STEM | Developed by Group 107</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
