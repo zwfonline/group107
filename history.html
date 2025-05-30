@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UniSA Auto-Grading Tool - History</title>
+    <title>Submission History - UniSA Auto-Grading Tool</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -12,19 +13,44 @@
         <nav class="navbar">
             <img src="https://my.unisa.edu.au/student/portal/App_Themes/Student/images/logo_unisa.svg" alt="UniSA Logo" class="logo">
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="upload.html">Upload Diagram</a></li>
-                <li><a href="history.html" class="active">Submission History</a></li>
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="upload.html"><i class="fas fa-upload"></i> Upload Diagram</a></li>
+                <li><a href="history.html" class="active"><i class="fas fa-history"></i> Submission History</a></li>
             </ul>
         </nav>
     </header>
     <main>
-        <section class="history-section">
+        <div class="history-section">
             <h2>Submission History</h2>
-            <div id="history-list" class="history-box">
-                <p>No submissions yet. Upload a diagram to get started!</p>
+            <div class="history-box" id="history">
+                <table class="submission-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Score</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="submission-list">
+                        <tr>
+                            <td>2025-05-30</td>
+                            <td>85/100</td>
+                            <td><a href="#" onclick="viewFeedback(1)">View Feedback</a></td>
+                        </tr>
+                        <tr>
+                            <td>2025-05-29</td>
+                            <td>92/100</td>
+                            <td><a href="#" onclick="viewFeedback(2)">View Feedback</a></td>
+                        </tr>
+                        <tr>
+                            <td>2025-05-28</td>
+                            <td>78/100</td>
+                            <td><a href="#" onclick="viewFeedback(3)">View Feedback</a></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        </section>
+        </div>
     </main>
     <footer>
         <p>© 2025 UniSA STEM | Developed by Group 107</p>

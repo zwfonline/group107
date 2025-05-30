@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire Table</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            color: #2c3e50;
+        }
+
+        th {
+            background: #f4f7fa;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        td {
+            background: #fff;
+        }
+
+        tr:nth-child(even) td {
+            background: #f9f9f9;
+        }
+
+        tr:hover td {
+            background: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="table-container">
+        <h2>Table 1: Questionnaires Used for Data Collection</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Variable</th>
+                    <th>Sample Question</th>
+                    <th>Scale</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Perceived Ease of Use (PEU) -->
+                <tr>
+                    <td rowspan="2">Perceived Ease of Use (PEU)</td>
+                    <td>I think the charging process of electric vehicles is simple and easy to operate.</td>
+                    <td rowspan="2">1-5 Likert Scale<br>(1 = Strongly Disagree, 5 = Strongly Agree)</td>
+                </tr>
+                <tr>
+                    <td>I think the daily use and maintenance of electric vehicles are convenient.</td>
+                </tr>
+                <!-- Number of Charging Piles (NCP) -->
+                <tr>
+                    <td rowspan="2">Number of Charging Piles (NCP)</td>
+                    <td>There are enough charging piles near my home for electric vehicle use.</td>
+                    <td rowspan="2">1-5 Likert Scale<br>(1 = Strongly Disagree, 5 = Strongly Agree)</td>
+                </tr>
+                <tr>
+                    <td>I think the number of charging piles can meet my daily needs.</td>
+                </tr>
+                <!-- After-Sales Maintenance Distance (AMD) -->
+                <tr>
+                    <td rowspan="2">After-Sales Maintenance Distance (AMD)</td>
+                    <td>The after-sales maintenance service for electric vehicles is located close to my home.</td>
+                    <td rowspan="2">1-5 Likert Scale<br>(1 = Strongly Disagree, 5 = Strongly Agree)</td>
+                </tr>
+                <tr>
+                    <td>I think the convenience of after-sales maintenance for electric vehicles is high.</td>
+                </tr>
+                <!-- Attitude (ATT) -->
+                <tr>
+                    <td rowspan="2">Attitude (ATT)</td>
+                    <td>I think purchasing an electric vehicle has a positive impact on environmental protection.</td>
+                    <td rowspan="2">1-5 Likert Scale<br>(1 = Strongly Disagree, 5 = Strongly Agree)</td>
+                </tr>
+                <tr>
+                    <td>I have a positive attitude toward the experience of using electric vehicles.</td>
+                </tr>
+                <!-- Cold Winter Performance (CWP) -->
+                <tr>
+                    <td rowspan="2">Cold Winter Performance (CWP)</td>
+                    <td>I think electric vehicles perform well in the cold winters of Northeast China.</td>
+                    <td rowspan="2">1-5 Likert Scale<br>(1 = Strongly Disagree, 5 = Strongly Agree)</td>
+                </tr>
+                <tr>
+                    <td>I believe electric vehicles can operate normally in low-temperature environments.</td>
+                </tr>
+                <!-- Advertising (ADV) -->
+                <tr>
+                    <td rowspan="2">Advertising (ADV)</td>
+                    <td>Advertisements for electric vehicles make me feel positive about them.</td>
+                    <td rowspan="2">1-5 Likert Scale<br>(1 = Strongly Disagree, 5 = Strongly Agree)</td>
+                </tr>
+                <tr>
+                    <td>I think the content of electric vehicle advertisements is truthful and credible.</td>
+                </tr>
+                <!-- Policy Guidance (PG) -->
+                <tr>
+                    <td rowspan="2">Policy Guidance (PG)</td>
+                    <td>Government subsidies for electric vehicles make me more willing to purchase one.</td>
+                    <td rowspan="2">1-5 Likert Scale<br>(1 = Strongly Disagree, 5 = Strongly Agree)</td>
+                </tr>
+                <tr>
+                    <td>I think government policies effectively promote the adoption of electric vehicles.</td>
+                </tr>
+                <!-- Subjective Norm (SN) -->
+                <tr>
+                    <td rowspan="2">Subjective Norm (SN)</td>
+                    <td>My family and friends support my decision to purchase an electric vehicle.</td>
+                    <td rowspan="2">1-5 Likert Scale<br>(1 = Strongly Disagree, 5 = Strongly Agree)</td>
+                </tr>
+                <tr>
+                    <td>People around me think purchasing an electric vehicle is a good choice.</td>
+                </tr>
+                <!-- Perceived Behavioral Control (PBC) -->
+                <tr>
+                    <td rowspan="2">Perceived Behavioral Control (PBC)</td>
+                    <td>I have sufficient resources and ability to purchase and use an electric vehicle.</td>
+                    <td rowspan="2">1-5 Likert Scale<br>(1 = Strongly Disagree, 5 = Strongly Agree)</td>
+                </tr>
+                <tr>
+                    <td>I think I can easily handle the use and maintenance of an electric vehicle.</td>
+                </tr>
+                <!-- Maintenance Frequency (MF) -->
+                <tr>
+                    <td rowspan="2">Maintenance Frequency (MF)</td>
+                    <td>I think the maintenance frequency of electric vehicles is acceptable.</td>
+                    <td rowspan="2">1-5 Likert Scale<br>(1 = Strongly Disagree, 5 = Strongly Agree)</td>
+                </tr>
+                <tr>
+                    <td>I believe the maintenance of electric vehicles will not take up too much of my time.</td>
+                </tr>
+                <!-- Perceived Usefulness (PU) -->
+                <tr>
+                    <td rowspan="2">Perceived Usefulness (PU)</td>
+                    <td>I think electric vehicles can save costs in the long run.</td>
+                    <td rowspan="2">1-5 Likert Scale<br>(1 = Strongly Disagree, 5 = Strongly Agree)</td>
+                </tr>
+                <tr>
+                    <td>I think using an electric vehicle can improve my quality of life.</td>
+                </tr>
+                <!-- Vehicle Price (VP) -->
+                <tr>
+                    <td rowspan="2">Vehicle Price (VP)</td>
+                    <td>I think the price of electric vehicles is within my budget.</td>
+                    <td rowspan="2">1-5 Likert Scale<br>(1 = Strongly Disagree, 5 = Strongly Agree)</td>
+                </tr>
+                <tr>
+                    <td>I think the price of electric vehicles matches their performance.</td>
+                </tr>
+                <!-- Brand Effect (BE) -->
+                <tr>
+                    <td rowspan="2">Brand Effect (BE)</td>
+                    <td>I prefer to purchase electric vehicles from well-known brands.</td>
+                    <td rowspan="2">1-5 Likert Scale<br>(1 = Strongly Disagree, 5 = Strongly Agree)</td>
+                </tr>
+                <tr>
+                    <td>I think electric vehicles from well-known brands are more reliable.</td>
+                </tr>
+                <!-- Purchase Intention (PI) -->
+                <tr>
+                    <td rowspan="2">Purchase Intention (PI)</td>
+                    <td>I plan to purchase an electric vehicle in the future.</td>
+                    <td rowspan="2">1-5 Likert Scale<br>(1 = Strongly Disagree, 5 = Strongly Agree)</td>
+                </tr>
+                <tr>
+                    <td>I am likely to purchase an electric vehicle in the near future.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
