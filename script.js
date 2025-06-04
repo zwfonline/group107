@@ -261,7 +261,7 @@ async function submitDiagram() {
                     <div class="score-circle" style="width: 90px; height: 90px; border-radius: 50%; background: conic-gradient(#003087 ${percentage}%, #ddd 0); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
                         <span style="font-size: 24px; color: white;">${grade}</span>
                     </div>
-                    <h3>Grading Results for ${fileName}</h3>
+                    <h3>Grading Results </h3>
                     <details class="feedback-item">
                         <summary>Overall Grade and Feedback</summary>
                         <p><strong>Grade:</strong> ${grade}</p>
@@ -279,6 +279,7 @@ async function submitDiagram() {
                     </details>
                     <p style="color: green;">Submission graded successfully!</p>
                     <a href="history.html" class="cta-btn" style="display: inline-block; margin-top: 10px;">View History</a>
+                    <a class="cta-btn" style="display: inline-block; margin-top: 10px;cursor: pointer;">Download Result</a>
                 `;
                 results.innerHTML = feedbackHtml;
             }, 500);
