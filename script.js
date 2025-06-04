@@ -9,18 +9,21 @@ function previewDiagram(event) {
         // Check file size (max 10MB)
         if (file.size > 10 * 1024 * 1024) {
             preview.innerHTML = '<p>File too large (max 10MB).</p>';
+            alert('File too large (max 10MB).');
+            fileInput.value = '';
             return;
         }
 
         const fileType = file.type;
-        if (fileType.startsWith('image/')) {
+        if (fileType === 'image/png') {
             const img = document.createElement('img');
             img.src = URL.createObjectURL(file);
             preview.appendChild(img);
-        } else if (fileType === 'application/pdf') {
-            preview.innerHTML = `<p>PDF uploaded: ${file.name}</p><i class="fas fa-file-pdf" style="font-size: 40px; color: #003087;"></i>`;
         } else {
-            preview.innerHTML = '<p>Unsupported file format.</p>';
+            preview.innerHTML = '<p>Only PNG files are supported.</p>';
+            alert('Only PNG files are supported.');
+            fileInput.value = '';
+            return;
         }
         // Add remove button
         const removeBtn = document.createElement('button');
@@ -57,102 +60,148 @@ if (uploadBox && fileInput) {
 
 // Feedback library for random generation
 const feedbackLibrary = {
-    syntax: [
+    overall: [
         {
-            details: 'All class names are correctly spelled and adhere to standard UML naming conventions, ensuring the diagram is clear and professional. No typographical errors were detected, which reflects careful preparation.',
-            score: 30,
-            max: 30
+            details: 'Your diagram is very similar to the reference model, with only minor adjustments needed.',
+            score: 85
         },
         {
-            details: 'A minor spelling error was found in the class name "Custmer" instead of "Customer", which slightly affects readability. Correcting this typo will align the diagram with the reference model. Please review all class names for accuracy.',
-            score: 28,
-            max: 30
+            details: 'Some parts of your diagram match well, but consider reviewing connections and labels.',
+            score: 80
         },
         {
-            details: 'Attribute names like "id_number" use inconsistent formatting, such as underscores instead of camelCase (e.g., "idNumber"). Adopting a consistent naming convention will enhance the diagram’s clarity. Consider following UML best practices for attribute naming.',
-            score: 25,
-            max: 30
-        },
-        {
-            details: 'Operation name "calculate" is vague and lacks a specific verb prefix, such as "computeTotal". Renaming operations to be more descriptive will improve the diagram’s expressiveness. Check the reference model for suggested operation names.',
-            score: 26,
-            max: 30
-        },
-        {
-            details: 'Multiple classes use generic names like "Class1" instead of descriptive ones like "Student". Using meaningful, domain-specific names will make the diagram more intuitive. Refer to the problem domain for appropriate terminology.',
-            score: 24,
-            max: 30
-        },
-        {
-            details: 'Operation parameters in "processOrder" are missing, reducing clarity about input types (e.g., "amount: float"). Adding parameter details will enhance the operation’s specificity. Review the reference model for parameter examples.',
-            score: 27,
-            max: 30
+            details: 'The diagram has some correct elements, but significant revisions are needed for accuracy.',
+            score: 70
         }
     ],
-    semantics: [
+    semantic: [
         {
-            details: 'All attributes and operations accurately reflect the intended meaning within the problem domain, demonstrating a strong grasp of the system requirements. The diagram effectively captures the semantics of the modeled system.',
-            score: 30,
-            max: 30
+            details: 'Labels generally match the reference model, indicating good semantic alignment.',
+            score: 25
         },
         {
-            details: 'The attribute "status" is incorrectly placed in class "City" instead of "Flight", where it should represent a booking state (e.g., "booked"). Relocating this attribute to the appropriate class will ensure semantic correctness. Consult the reference model for correct placement.',
-            score: 25,
-            max: 30
+            details: 'Minor label refinements may improve semantic match with the reference.',
+            score: 22
         },
         {
-            details: 'The class name "Order" is ambiguous and could be confused with "Booking" in this context, reducing clarity. Using domain-specific terminology, such as "Booking", will better convey the class’s purpose. Review the problem description for suitable terms.',
-            score: 27,
-            max: 30
-        },
-        {
-            details: 'The operation "update" in class "Customer" lacks specificity about what is being updated (e.g., profile or order details). Renaming it to something like "updateProfile" will improve semantic precision. Check the reference operations for clarity.',
-            score: 26,
-            max: 30
-        },
-        {
-            details: 'The attribute "price" in class "Product" uses a generic term that doesn’t specify the currency or context. Adding context (e.g., "unitPriceUSD") will make the attribute’s meaning clearer. Refer to the domain model for precise terminology.',
-            score: 25,
-            max: 30
-        },
-        {
-            details: 'The operation "getData" in class "Order" is too broad and doesn’t indicate what data is retrieved. Specifying the data type (e.g., "getOrderDetails") will enhance the operation’s semantic accuracy. Review UML operation guidelines.',
-            score: 26,
-            max: 30
+            details: 'Consider re-evaluating class names and properties for better semantic accuracy.',
+            score: 18
         }
     ],
-    structure: [
+    structural: [
         {
-            details: 'All associations, generalizations, and dependencies are correctly defined with accurate multiplicities and directions, fully matching the reference model. The diagram’s topology is well-structured, reflecting excellent design skills.',
-            score: 40,
-            max: 40
+            details: 'Structure closely mirrors the reference model, with accurate relationships.',
+            score: 35
         },
         {
-            details: 'The association between "Customer" and "Order" is missing, which is essential for representing the relationship in the system. Adding a 1..* association will complete the diagram’s structure. Check the reference model for the correct connection details.',
-            score: 30,
-            max: 40
+            details: 'Some structural elements differ; review associations and multiplicities.',
+            score: 30
         },
         {
-            details: 'The generalization between "Vehicle" and "Car" is reversed, incorrectly suggesting "Car" is the parent class. Correcting the arrow direction will align the hierarchy with the reference model. Verify the inheritance structure in the problem domain.',
-            score: 32,
-            max: 40
-        },
-        {
-            details: 'A dependency between "Booking" and "Payment" is present but lacks a stereotype (e.g., <<use>>), reducing clarity. Adding the appropriate stereotype will clarify the relationship’s purpose. Refer to UML standards for dependency notation.',
-            score: 35,
-            max: 40
-        },
-        {
-            details: 'The diagram includes an extra association between "Product" and "Inventory" that is not required, causing redundancy. Removing this unnecessary relationship will streamline the structure. Compare with the reference model to identify required associations.',
-            score: 33,
-            max: 40
-        },
-        {
-            details: 'Multiplicities in the association between "Order" and "Item" are incorrect (e.g., 1..1 instead of 1..*). Adjusting the multiplicities to reflect the correct cardinality will improve accuracy. Check the reference model for multiplicity details.',
-            score: 34,
-            max: 40
+            details: 'Reassess your class layout and relationships to align with the reference.',
+            score: 25
         }
     ]
+};
+
+// Fixed feedback for specific files
+const fixedFeedback = {
+    'uml1.png': {
+        overall: {
+            details: 'Your diagram is very similar to the reference model, with only minor adjustments needed.',
+            score: 25,
+            max: 30
+        },
+        semantic: [
+            {
+                className: 'Driver',
+                details: 'Labels generally match reference, with accurate attribute names.',
+                score: 10,
+                max: 10
+            },
+            {
+                className: 'Vehicle',
+                details: 'Labels align well with the reference, reflecting correct semantics.',
+                score: 10,
+                max: 10
+            },
+            {
+                className: 'Car',
+                details: 'Labels are consistent with the reference model, ensuring clarity.',
+                score: 8,
+                max: 10
+            }
+        ],
+        structural: {
+            details: 'Structure closely mirrors reference, with correct associations and multiplicities.',
+            score: 35,
+            max: 40
+        }
+    },
+    'uml2.png': {
+        overall: {
+            details: 'Some parts match well, but consider reviewing connections for better alignment.',
+            score: 20,
+            max: 30
+        },
+        semantic: [
+            {
+                className: 'Operator',
+                details: 'Minor label refinements may improve semantic match with the reference.',
+                score: 8,
+                max: 10
+            },
+            {
+                className: 'Vehicle',
+                details: 'Labels generally match reference, with minor adjustments needed.',
+                score: 9,
+                max: 10
+            },
+            {
+                className: 'Car',
+                details: 'Labels align with the reference, ensuring good semantic clarity.',
+                score: 9,
+                max: 10
+            }
+        ],
+        structural: {
+            details: 'Some structural elements differ; review associations and dependencies.',
+            score: 30,
+            max: 40
+        }
+    },
+    'uml3.png': {
+        overall: {
+            details: 'Some parts match well, but significant revisions are needed for accuracy.',
+            score: 15,
+            max: 30
+        },
+        semantic: [
+            {
+                className: 'Car',
+                details: 'Minor label refinements may improve semantic match with the reference.',
+                score: 8,
+                max: 10
+            },
+            {
+                className: 'Vehicle',
+                details: 'Labels generally match reference, with correct attribute naming.',
+                score: 9,
+                max: 10
+            },
+            {
+                className: 'Flight',
+                details: 'Consider re-evaluating class names and properties for semantic accuracy.',
+                score: 6,
+                max: 10
+            }
+        ],
+        structural: {
+            details: 'Reassess your class layout and relationships to align with the reference.',
+            score: 5,
+            max: 40
+        }
+    }
 };
 
 // Submit diagram with mock API call
@@ -185,32 +234,49 @@ async function submitDiagram() {
             const progress = results.querySelector('.progress-bar div');
             progress.style.width = '100%';
             setTimeout(() => {
-                // Randomly select feedback
-                const getRandomFeedback = (category) => feedbackLibrary[category][Math.floor(Math.random() * feedbackLibrary[category].length)];
-                const feedback = [
-                    { category: 'Syntax', ...getRandomFeedback('syntax') },
-                    { category: 'Semantics', ...getRandomFeedback('semantics') },
-                    { category: 'Structure', ...getRandomFeedback('structure') }
-                ];
-                const score = feedback.reduce((sum, item) => sum + item.score, 0);
-                const maxScore = feedback.reduce((sum, item) => sum + item.max, 0);
+                // Check for specific files
+                const fileName = fileInput.files[0].name.toLowerCase();
+                let feedback;
+                if (fileName in fixedFeedback) {
+                    feedback = fixedFeedback[fileName];
+                } else {
+                    // Random feedback
+                    const getRandomFeedback = (category) => feedbackLibrary[category][Math.floor(Math.random() * feedbackLibrary[category].length)];
+                    feedback = {
+                        overall: getRandomFeedback('overall'),
+                        semantic: [
+                            { className: 'Class A', ...getRandomFeedback('semantic') },
+                            { className: 'Class B', ...getRandomFeedback('semantic') },
+                            { className: 'Class C', ...getRandomFeedback('semantic') }
+                        ],
+                        structural: getRandomFeedback('structural')
+                    };
+                }
+                const score = feedback.overall.score + feedback.semantic.reduce((sum, item) => sum + item.score, 0) + feedback.structural.score;
+                const maxScore = feedback.overall.max + feedback.semantic.reduce((sum, item) => sum + item.max, 0) + feedback.structural.max;
                 const percentage = Math.round((score / maxScore) * 100);
+                const grade = score >= 85 ? 'HD' : score >= 75 ? 'D' : 'F';
 
                 let feedbackHtml = `
-                    <div class="score-circle" style="width: 80px; height: 80px; border-radius: 50%; background: conic-gradient(#003087 ${percentage}%, #ddd 0); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
-                        <span style="font-size: 20px; color: #003087;">${percentage}%</span>
+                    <div class="score-circle" style="width: 90px; height: 90px; border-radius: 50%; background: conic-gradient(#003087 ${percentage}%, #ddd 0); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                        <span style="font-size: 24px; color: white;">${grade}</span>
                     </div>
-                    <h3>Score: ${score}/${maxScore}</h3>
-                `;
-                feedback.forEach(item => {
-                    feedbackHtml += `
-                        <details class="feedback-item">
-                            <summary>${item.category} (${item.score}/${item.max})</summary>
-                            <p>${item.details}</p>
-                        </details>
-                    `;
-                });
-                feedbackHtml += `
+                    <h3>Grading Results for ${fileName}</h3>
+                    <details class="feedback-item">
+                        <summary>Overall Grade and Feedback</summary>
+                        <p><strong>Grade:</strong> ${grade}</p>
+                        <p>${feedback.overall.details}</p>
+                    </details>
+                    <details class="feedback-item">
+                        <summary>Semantic Similarity (Labels)</summary>
+                        ${feedback.semantic.map(item => `
+                            <p><strong>Class "${item.className}":</strong> ${item.details}</p>
+                        `).join('')}
+                    </details>
+                    <details class="feedback-item">
+                        <summary>Structural Similarity</summary>
+                        <p>${feedback.structural.details}</p>
+                    </details>
                     <p style="color: green;">Submission graded successfully!</p>
                     <a href="history.html" class="cta-btn" style="display: inline-block; margin-top: 10px;">View History</a>
                 `;
