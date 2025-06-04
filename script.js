@@ -197,26 +197,26 @@ const fixedFeedback = {
     'uml3.png': {
         overall: {
             details: 'Some structural elements match, but significant revisions are needed for accuracy.',
-            score: 15,
+            score: 10,
             max: 30
         },
         semantic: [
             {
                 className: 'Car',
                 details: 'Minor label refinements may improve semantic match.',
-                score: 8,
+                score: 3,
                 max: 10
             },
             {
                 className: 'Vehicle',
                 details: 'Labels generally match reference, with correct attribute naming.',
-                score: 9,
+                score: 3,
                 max: 10
             },
             {
                 className: 'Flight',
                 details: 'Consider re-evaluating class names and properties for semantic accuracy.',
-                score: 6,
+                score: 4,
                 max: 10
             }
         ],
