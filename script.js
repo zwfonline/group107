@@ -63,43 +63,67 @@ const feedbackLibrary = {
     overall: [
         {
             details: 'Your diagram is very similar to the reference model, with only minor adjustments needed.',
-            score: 85
+            score: 25,
+            max: 30
         },
         {
             details: 'Some parts of your diagram match well, but consider reviewing connections and labels.',
-            score: 80
+            score: 20,
+            max: 30
         },
         {
             details: 'The diagram has some correct elements, but significant revisions are needed for accuracy.',
-            score: 70
+            score: 5,
+            max: 30
+        },
+        {
+            details: 'Excellent alignment with the reference model, no major issues found.',
+            score: 30,
+            max: 30
         }
     ],
     semantic: [
         {
+            details: 'Labels perfectly match the reference model, indicating excellent semantic alignment.',
+            score: 10,
+            max: 10
+        },
+        {
             details: 'Labels generally match the reference model, indicating good semantic alignment.',
-            score: 25
+            score: 8,
+            max: 10
         },
         {
             details: 'Minor label refinements may improve semantic match with the reference.',
-            score: 22
+            score: 6,
+            max: 10
         },
         {
             details: 'Consider re-evaluating class names and properties for better semantic accuracy.',
-            score: 18
+            score: 3,
+            max: 10
         }
     ],
     structural: [
         {
+            details: 'Structure perfectly mirrors the reference model, with accurate relationships.',
+            score: 40,
+            max: 40
+        },
+        {
             details: 'Structure closely mirrors the reference model, with accurate relationships.',
-            score: 35
+            score: 35,
+            max: 40
         },
         {
             details: 'Some structural elements differ; review associations and multiplicities.',
-            score: 30
+            score: 20,
+            max: 40
         },
         {
             details: 'Reassess your class layout and relationships to align with the reference.',
-            score: 25
+            score: 10,
+            max: 40
         }
     ]
 };
@@ -109,32 +133,32 @@ const fixedFeedback = {
     'uml1.png': {
         overall: {
             details: 'Your diagram is very similar to the reference model, with only minor adjustments needed.',
-            score: 25,
+            score: 30,
             max: 30
         },
         semantic: [
             {
                 className: 'Driver',
-                details: 'Labels generally match reference, with accurate attribute names.',
+                details: 'Labels perfectly match reference, with accurate attribute names.',
                 score: 10,
                 max: 10
             },
             {
                 className: 'Vehicle',
-                details: 'Labels align well with the reference, reflecting correct semantics.',
+                details: 'Labels align perfectly with the reference, reflecting correct semantics.',
                 score: 10,
                 max: 10
             },
             {
                 className: 'Car',
-                details: 'Labels are consistent with the reference model, ensuring clarity.',
-                score: 8,
+                details: 'Labels are fully consistent with the reference model, ensuring clarity.',
+                score: 10,
                 max: 10
             }
         ],
         structural: {
-            details: 'Structure closely mirrors reference, with correct associations and multiplicities.',
-            score: 35,
+            details: 'Structure perfectly mirrors reference, with correct associations and multiplicities.',
+            score: 40,
             max: 40
         }
     },
@@ -172,14 +196,14 @@ const fixedFeedback = {
     },
     'uml3.png': {
         overall: {
-            details: 'Some parts match well, but significant revisions are needed for accuracy.',
+            details: 'Some structural elements match, but significant revisions are needed for accuracy.',
             score: 15,
             max: 30
         },
         semantic: [
             {
                 className: 'Car',
-                details: 'Minor label refinements may improve semantic match with the reference.',
+                details: 'Minor label refinements may improve semantic match.',
                 score: 8,
                 max: 10
             },
@@ -198,7 +222,7 @@ const fixedFeedback = {
         ],
         structural: {
             details: 'Reassess your class layout and relationships to align with the reference.',
-            score: 5,
+            score: 25,
             max: 40
         }
     }
@@ -241,7 +265,10 @@ async function submitDiagram() {
                     feedback = fixedFeedback[fileName];
                 } else {
                     // Random feedback
-                    const getRandomFeedback = (category) => feedbackLibrary[category][Math.floor(Math.random() * feedbackLibrary[category].length)];
+                    const getRandomFeedback = (category) => {
+                        const item = feedbackLibrary[category][Math.floor(Math.random() * feedbackLibrary[category].length)];
+                        return { ...item };
+                    };
                     feedback = {
                         overall: getRandomFeedback('overall'),
                         semantic: [
@@ -252,16 +279,34 @@ async function submitDiagram() {
                         structural: getRandomFeedback('structural')
                     };
                 }
+
                 const score = feedback.overall.score + feedback.semantic.reduce((sum, item) => sum + item.score, 0) + feedback.structural.score;
                 const maxScore = feedback.overall.max + feedback.semantic.reduce((sum, item) => sum + item.max, 0) + feedback.structural.max;
-                const percentage = Math.round((score / maxScore) * 100);
-                const grade = score >= 85 ? 'HD' : score >= 75 ? 'D' : 'F';
+                const percentage = (score / maxScore) * 100;
+                let roundedPercentage = Math.round(percentage);
+                const grade = score < 50 ? 'F' : score >= 85 ? 'HD' : 'D';
+
+                // Adjust percentage for D grade to ensure 80% blue
+                if (grade === 'D') {
+                    roundedPercentage = 80;
+                }
+
+                // Enhanced debugging
+                console.log('Debug - Overall Score:', feedback.overall.score, '/', feedback.overall.max);
+                console.log('Debug - Semantic Scores:', feedback.semantic.map(item => `${item.score}/${item.max}`).join(', '));
+                console.log('Debug - Structural Score:', feedback.structural.score, '/', feedback.structural.max);
+                console.log('Debug - Total Score:', score, '/', maxScore, 'Percentage:', percentage, 'Rounded:', roundedPercentage, 'Grade:', grade);
+
+                // Adjust gradient based on grade
+                const gradientStyle = grade === 'HD'
+                    ? 'background: #003087;'
+                    : `background: conic-gradient(#003087 0 ${roundedPercentage}%, #ddd ${roundedPercentage}% 100%);`;
 
                 let feedbackHtml = `
-                    <div class="score-circle" style="width: 90px; height: 90px; border-radius: 50%; background: conic-gradient(#003087 ${percentage}%, #ddd 0); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                    <div class="score-circle" style="width: 90px; height: 90px; border-radius: 50%; ${gradientStyle} display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;" title="Score: ${score}/${maxScore}">
                         <span style="font-size: 24px; color: white;">${grade}</span>
                     </div>
-                    <h3>Grading Results </h3>
+                    <h3>Grading Results for ${fileName}</h3>
                     <details class="feedback-item">
                         <summary>Overall Grade and Feedback</summary>
                         <p><strong>Grade:</strong> ${grade}</p>
@@ -278,8 +323,7 @@ async function submitDiagram() {
                         <p>${feedback.structural.details}</p>
                     </details>
                     <p style="color: green;">Submission graded successfully!</p>
-                    <a href="history.html" class="cta-btn" style="display: inline-block; margin-top: 10px;">View History</a>
-                    <a class="cta-btn" style="display: inline-block; margin-top: 10px;cursor: pointer;">Download Result</a>
+                    <a href="history.html" class="cta-btn" style="display:  inline-block; margin-top: 10px;">View History</a>
                 `;
                 results.innerHTML = feedbackHtml;
             }, 500);
@@ -293,63 +337,63 @@ async function submitDiagram() {
 function viewFeedback(id) {
     const staticFeedback = {
         1: [
-            { 
-                category: 'Syntax', 
-                details: 'Class names are correctly spelled and follow standard naming conventions, ensuring clarity in the diagram. No typographical errors were detected, which is excellent.', 
-                score: 30, 
-                max: 30 
+            {
+                category: 'Driver',
+                details: 'Class names are correctly spelled and follow standard naming conventions, ensuring clarity in the diagram. No typographical errors were detected, which is excellent.',
+                score: 30,
+                max: 30
             },
-            { 
-                category: 'Semantics', 
-                details: 'The attribute "status" in class "Flight" should represent a booking state (e.g., "booked" or "cancelled") but is misplaced in "City". Relocating it to the correct class will ensure semantic accuracy. Refer to the reference model for guidance.', 
-                score: 25, 
-                max: 30 
+            {
+                category: 'Semantics',
+                details: 'The attribute "status" in class "Flight" should represent a booking state (e.g., "booked" or "cancelled") but is misplaced in "City". Relocating it to the correct class will ensure semantic accuracy. Refer to the reference model for guidance.',
+                score: 25,
+                max: 30
             },
-            { 
-                category: 'Structure', 
-                details: 'The association between "Customer" and "Order" is missing, which is critical for representing the relationship in the system. Adding a 1..* association will complete the structure. Check the reference model for the correct connection.', 
-                score: 30, 
-                max: 40 
+            {
+                category: 'Structure',
+                details: 'The association between "Customer" and "Order" is missing, which is critical for representing the relationship in the system. Adding a 1..* association will complete the structure. Check the reference model for the correct connection.',
+                score: 30,
+                max: 40
             }
         ],
         2: [
-            { 
-                category: 'Syntax', 
-                details: 'A minor spelling error was found in the class name "Custmer" instead of "Customer". Correcting this typo will align the diagram with the reference model.', 
-                score: 28, 
-                max: 30 
+            {
+                category: 'Operator',
+                details: 'A minor spelling error was found in the class name "Custmer" instead of "Customer". Correcting this typo will align the diagram with the reference model.',
+                score: 28,
+                max: 30
             },
-            { 
-                category: 'Semantics', 
-                details: 'The attributes and operations in all classes accurately reflect their intended meaning, demonstrating a strong understanding of the system requirements.', 
-                score: 30, 
-                max: 30 
+            {
+                category: 'Vehicle',
+                details: 'The attributes and operations in all classes accurately reflect their intended meaning, demonstrating a strong understanding of the system requirements.',
+                score: 30,
+                max: 30
             },
-            { 
-                category: 'Structure', 
-                details: 'All associations and generalizations are correctly defined, with accurate multiplicities. The diagram’s topology fully matches the reference model.', 
-                score: 40, 
-                max: 40 
+            {
+                category: 'Structure',
+                details: 'All associations and generalizations are correctly defined, with accurate multiplicities. The diagram’s topology fully matches the reference model.',
+                score: 40,
+                max: 40
             }
         ],
         3: [
-            { 
-                category: 'Syntax', 
-                details: 'Attribute names like "id_number" use inconsistent formatting (e.g., underscores instead of camelCase). Standardizing to camelCase (e.g., "idNumber") will improve consistency. Consider reviewing naming conventions.', 
-                score: 25, 
-                max: 30 
+            {
+                category: 'Syntax',
+                details: 'Attribute names like "id_number" use inconsistent formatting (e.g., underscores instead of camelCase). Standardizing to camelCase (e.g., "idNumber") will improve consistency. Consider reviewing naming conventions.',
+                score: 25,
+                max: 30
             },
-            { 
-                category: 'Semantics', 
-                details: 'The class "Order" uses an ambiguous term that could be confused with "Booking". Using domain-specific terminology (e.g., "Booking") will clarify the class’s purpose. Consider consulting the problem description.', 
-                score: 27, 
-                max: 30 
+            {
+                category: 'Semantics',
+                details: 'The class "Order" uses an ambiguous term that could be confused with "Booking". Using domain-specific terminology (e.g., "Booking") will clarify the class’s purpose. Consider consulting the problem description.',
+                score: 27,
+                max: 30
             },
-            { 
-                category: 'Structure', 
-                details: 'A dependency between "Booking" and "Payment" is present but lacks a clear stereotype (e.g., <<use>>). Adding the appropriate stereotype will clarify the relationship’s purpose. Refer to UML standards for dependency notation.', 
-                score: 35, 
-                max: 40 
+            {
+                category: 'Structure',
+                details: 'A dependency between "Booking" and "Payment" is present but lacks a clear stereotype (e.g., <<use>>). Adding the appropriate stereotype will clarify the relationship’s purpose. Refer to UML standards for dependency notation.',
+                score: 35,
+                max: 40
             }
         ]
     };
